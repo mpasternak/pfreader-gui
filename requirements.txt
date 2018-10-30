@@ -1,0 +1,13 @@
+-i https://pypi.org/simple
+et-xmlfile==1.0.1
+jdcal==1.4
+odfpy==1.3.6
+openpyxl==2.4.9
+pfreader==0.0.1
+pyqt5-sip==4.19.13
+pyqt5==5.11.3
+pyyaml==3.13
+tablib==0.12.1
+unicodecsv==0.14.1
+xlrd==1.1.0
+xlwt==1.3.0
