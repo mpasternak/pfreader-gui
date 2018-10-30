@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+/src/pfreader_gui/mainwindow_ui.py
