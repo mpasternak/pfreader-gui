@@ -5,11 +5,11 @@ from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QDir, QSortFilterProxyModel, QCoreApplication
-from PyQt5.QtWidgets import QFileSystemModel
+from PyQt5.QtWidgets import QFileSystemModel, QMessageBox
 from pfreader.core import get_loxfile_data, dir_contains_pflex_data, get_machines, get_year_dirs
 from pfreader.output import get_databook
 
-from src.pfreader_gui.exceptions import UnsupportedPlatform
+from .exceptions import UnsupportedPlatform
 from .mainwindow_ui import Ui_MainWindow
 
 QFileDialog_platform_kwargs = {}
@@ -72,6 +72,18 @@ class PFReaderGUI(Ui_MainWindow):
         self.treeView.setColumnWidth(0, 300)
 
         self.openFileButton.clicked.connect(self.openFileButtonClicked)
+        self.aboutButton.clicked.connect(self.aboutButtonClicked)
+
+    def aboutButtonClicked(self, *args, **kw):
+        QMessageBox.about(
+            self.window,
+            "pfreader-gui",
+            "pfreader-gui\r\n\r\n"
+            "(C) 2018 Michał Pasternak <michal.dtz@gmail.com>\r\n\r\n"
+            "(C) 2018 IPLweb, http://www.iplweb.pl/\r\n\r\n"
+            "Open source software, not affiliated with Baxter® Inc., provided for "
+            "educational purposes. Do not use with any real data. MIT license. "
+        )
 
     def volumeDoubleClicked(self, idx):
         fn = self.qfs.filePath(self.exclude.mapToSource(idx))
@@ -89,7 +101,7 @@ class PFReaderGUI(Ui_MainWindow):
         path = QtCore.QStandardPaths.locate(
             QtCore.QStandardPaths.DocumentsLocation, "",
             QtCore.QStandardPaths.LocateDirectory)
-        self.openFileDialog(path)
+        self._openFileDialog(path)
 
     def _openFileDialog(self, path):
         fn = QtWidgets.QFileDialog.getOpenFileName(
