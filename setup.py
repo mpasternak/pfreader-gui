@@ -32,6 +32,12 @@ import sys
 if sys.platform == 'darwin':
     kwargs['app'] = ['src/app.py']
     kwargs['setup_requires'] = 'py2app'
+    kwargs['options'] = {
+        'py2app': {
+            'iconfile': 'src/pfreader_gui/pfreader_gui.icns',
+            'plist': {'CFBundleShortVersionString':'0.1.0',}
+        }
+    }
 
 setup(
     name='pfreader-gui',
@@ -43,6 +49,7 @@ setup(
     url='https://github.com/mpasternak/pfreader-gui',
     packages=['pfreader_gui', ],
     package_dir={'pfreader_gui': 'src/pfreader_gui'},
+    data_files=[],
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
