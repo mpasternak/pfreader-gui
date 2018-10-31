@@ -12,6 +12,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
+
 def reqs(fn):
     return list([x.strip()
                  for x in open(fn).readlines()
@@ -20,8 +21,17 @@ def reqs(fn):
                  and not x.startswith("-")
                  and not x.startswith("\#")])
 
+
 requirements = reqs("requirements.txt")
 test_requirements = reqs("requirements_dev.txt")
+
+kwargs = {}
+
+import sys
+
+if sys.platform == 'darwin':
+    kwargs['app'] = ['src/app.py']
+    kwargs['setup_requires'] = 'py2app'
 
 setup(
     name='pfreader-gui',
@@ -31,7 +41,7 @@ setup(
     author="Michał Pasternak",
     author_email='michal.dtz@gmail.com',
     url='https://github.com/mpasternak/pfreader-gui',
-    packages=['pfreader_gui',],
+    packages=['pfreader_gui', ],
     package_dir={'pfreader_gui': 'src/pfreader_gui'},
     include_package_data=True,
     install_requires=requirements,
@@ -48,5 +58,6 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
-    cmdclass=cmdclass
+    cmdclass=cmdclass,
+    **kwargs
 )
