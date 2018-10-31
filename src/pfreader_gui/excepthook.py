@@ -1,4 +1,6 @@
 import sys
+from PyQt5 import Qt
+
 import time
 import traceback
 from io import StringIO
@@ -42,6 +44,7 @@ def excepthook(excType, excValue, tracebackobj):
         pass
     errorbox = QMessageBox()
     errorbox.setText(str(notice) + str(msg) + str(versionInfo))
+    errorbox.setTextInteractionFlags(Qt.TextSelectableByMouse)
     errorbox.exec_()
 
 
