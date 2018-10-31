@@ -1,0 +1,25 @@
+#!/bin/bash -e
+#
+# Based on GIST by @zlbruce, https://gist.github.com/zlbruce/883605a635df8d5964bab11ed75e46ad
+
+echo "*** SVG 2 ICO ***"
+if [ $# -ne 1 ]; then
+    echo "Usage:   svg2ico filename.svg"
+    exit 100
+fi
+filename="$1"
+name=${filename%.*}
+ext=${filename##*.}
+echo "processing: $name"
+dest="$name"
+mkdir -p "$dest"
+
+convert -background none -resize '!16x16' "$1" "$dest/icon_16.png"
+convert -background none -resize '!32x32' "$1" "$dest/icon_32.png"
+convert -background none -resize '!48x48' "$1" "$dest/icon_48.png"
+convert -background none -resize '!64x64' "$1" "$dest/icon_64.png"
+convert -background none -resize '!128x128' "$1" "$dest/icon_128.png"
+convert -background none -resize '!256x256' "$1" "$dest/icon_256.png"
+
+convert $dest/icon_16.png $dest/icon_32.png $dest/icon_48.png $dest/icon_64.png $dest/icon_128.png $dest/icon_256.png -colors 256 $dest.ico
+rm -rf $dest
