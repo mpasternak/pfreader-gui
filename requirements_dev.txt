@@ -1,3 +1,4 @@
 -i https://pypi.org/simple
+bumpversion==0.5.3
 docopt==0.6.2
 pyqt-distutils==0.7.3
