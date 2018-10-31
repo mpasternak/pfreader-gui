@@ -152,7 +152,7 @@ class PFReaderGUI(Ui_MainWindow):
         if sys.platform == "darwin":
             os.system('open "%s"' % fp.name)
         elif sys.platform == 'win32':
-            os.system('start "%s"' % fp.name)
+            os.system('start "" "%s"' % fp.name)
         else:
             raise UnsupportedPlatform(sys.platform)
 
