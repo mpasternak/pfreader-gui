@@ -6,9 +6,9 @@ from pathlib import Path
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QDir, QCoreApplication
 from PyQt5.QtWidgets import QFileSystemModel, QProgressDialog, QMessageBox
+
 from pfreader.core import get_loxfile_data, get_machines, get_year_dirs
 from pfreader.output import get_databook
-
 from . import excepthook
 from .__version__ import VERSION
 from .exceptions import UnsupportedPlatform
