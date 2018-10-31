@@ -41,7 +41,7 @@ if sys.platform == 'darwin':
 
 setup(
     name='pfreader-gui',
-    version='0.0.2',
+    version='0.0.3-dev',
     description="GUI for pfeader, a reader for Baxter® PrismaFlex® LOX files written in Python.",
     long_description=readme + '\n\n' + history,
     author="Michał Pasternak",
