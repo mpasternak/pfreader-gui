@@ -2,6 +2,8 @@ requirements:
 	pipenv lock -r > requirements.txt
 	pipenv lock -dr > requirements_dev.txt
 
+build_ui:
+	python setup.py build_ui
 
 mac-clean:
 	rm pfreader*dmg
@@ -13,4 +15,4 @@ mac-app:
 mac-dmg:
 	hdiutil create -volname pfreader-gui-`python src/pfreader_gui/__version__.py` -srcfolder dist/ -ov -format UDZO pfreader-gui-`python src/pfreader_gui/__version__.py`.dmg
 
-macos: mac-clean mac-app mac-dmg
+macos: requirements build_ui mac-clean mac-app mac-dmg
