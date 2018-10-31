@@ -1,5 +1,6 @@
-0.0.2-dev
----------
+
+0.0.2
+-------------------
 
 * progress bar & notifications on LOX open
 * support older PrismaFlex® software versions (7.x)
