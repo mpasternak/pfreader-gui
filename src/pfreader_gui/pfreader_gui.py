@@ -29,10 +29,14 @@ class PFReaderGUI(Ui_MainWindow):
         exclude.setSourceModel(qfs)
         self.treeView.setModel(exclude)
 
+        qfs.setFilter(QDir.AllDirs | QDir.NoDotAndDotDot | QDir.Files)
+
         if sys.platform == 'darwin':
             qfs.setRootPath("/Volumes")
             self.treeView.setRootIndex(exclude.mapFromSource(qfs.index("/Volumes")))
-            qfs.setFilter(QDir.AllDirs | QDir.NoDotAndDotDot | QDir.Files)
+        elif sys.platform == 'win32':
+            qfs.setRootPath("\\")
+            self.treeView.setRootIndex(exclude.mapFromSource(qfs.index("\\")))
         else:
             raise UnsupportedPlatform(sys.platform)
 
@@ -144,11 +148,12 @@ class PFReaderGUI(Ui_MainWindow):
             xl_out.save(fp)
 
         updateProgressBar(_("Progress", "Opening XLSX file..."), 4)
+
         if sys.platform == "darwin":
             os.system('open "%s"' % fp.name)
-
+        elif sys.platform == 'win32':
+            os.system('start "%s"' % fp.name)
         else:
-            # TODO: platform-independetn way of XLS opening
             raise UnsupportedPlatform(sys.platform)
 
         updateProgressBar(_("Progress", "Done!"), 5)
