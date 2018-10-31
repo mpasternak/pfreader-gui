@@ -1,8 +1,14 @@
 
-0.0.3
+0.0.4
 -----
 
-* [bugfix] use pfreader 0.0.3, export pressure information
+* summarise therapy (alpha)
+* [bugfix] use pfreader dev
+
+
+0.0.3
+-----
+* export pressure information
 * [bugfix] [Windows] don't display console window when opening XLS 
 
 0.0.2
