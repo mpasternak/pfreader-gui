@@ -137,17 +137,17 @@ class PFReaderGUI(Ui_MainWindow):
         updateProgressBar(_("Progress", "Parsing LOX data..."), 1)
         db = get_output(r)
 
-        updateProgressBar(_("Progress", "Creating XLS file..."), 2)
+        updateProgressBar(_("Progress", "Creating output data..."), 2)
         wb_out = get_openpyxl(db)
 
-        updateProgressBar(_("Progress", "Writing XLSX file..."), 3)
+        updateProgressBar(_("Progress", "Writing Microsoft® Excel® file..."), 3)
         with tempfile.NamedTemporaryFile(
                 prefix=os.path.splitext(os.path.basename(path))[0],
                 suffix='.xlsx',
                 delete=False) as fp:
             wb_out.save(fp)
 
-        updateProgressBar(_("Progress", "Opening XLSX file..."), 4)
+        updateProgressBar(_("Progress", "Opening Microsoft® Excel® file..."), 4)
 
         if sys.platform == "darwin":
             os.system('open "%s"' % fp.name)
