@@ -3,12 +3,13 @@ import sys
 import tempfile
 from pathlib import Path
 
+import openpyxl
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QDir, QCoreApplication
 from PyQt5.QtWidgets import QFileSystemModel, QProgressDialog, QMessageBox
 
 from pfreader.core import get_loxfile_data, get_machines, get_year_dirs
-from pfreader.output import get_databook
+from pfreader.output import get_databook, get_output, get_openpyxl
 from . import excepthook
 from .__version__ import VERSION
 from .exceptions import UnsupportedPlatform
@@ -133,18 +134,18 @@ class PFReaderGUI(Ui_MainWindow):
         updateProgressBar(_("Progress", "Reading LOX file..."), 0)
         r = get_loxfile_data(path)
 
-        updateProgressBar(_("Progress", "Creating initial XLSX file..."), 1)
-        db = get_databook(r)
+        updateProgressBar(_("Progress", "Parsing LOX data..."), 1)
+        db = get_output(r)
 
-        updateProgressBar(_("Progress", "Resizing columns..."), 2)
-        xl_out = autofit_databook(db)
+        updateProgressBar(_("Progress", "Creating XLS file..."), 2)
+        wb_out = get_openpyxl(db)
 
         updateProgressBar(_("Progress", "Writing XLSX file..."), 3)
         with tempfile.NamedTemporaryFile(
                 prefix=os.path.splitext(os.path.basename(path))[0],
                 suffix='.xlsx',
                 delete=False) as fp:
-            xl_out.save(fp)
+            wb_out.save(fp)
 
         updateProgressBar(_("Progress", "Opening XLSX file..."), 4)
 
