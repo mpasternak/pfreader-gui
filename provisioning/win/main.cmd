@@ -1,1 +1,3 @@
-choco install -y pyqt5 git nsis 
+choco install -y python34 git nsis
+c:\python34\scripts\pip install pyqt5
+
