@@ -1,6 +1,9 @@
+import sys
 from io import BytesIO
 
 import openpyxl
+from PyQt5.QtCore import QSortFilterProxyModel
+from pfreader.core import dir_contains_pflex_data, get_year_dirs
 
 
 def autofit_databook(db):
@@ -24,3 +27,31 @@ def autofit_databook(db):
             ws_out.column_dimensions[column_cells[0].column].width = length
 
     return wb_out
+
+
+class ExcludeSomeNamesModel(QSortFilterProxyModel):
+    def filterAcceptsRow(self, p_int, idx):
+        index = self.sourceModel().index(p_int, 0, idx)
+        s = self.sourceModel().data(index)
+
+        if sys.platform == 'darwin':
+            if s.startswith("Preboot"):
+                return False
+
+            if s.startswith("Volumes"):
+                return True
+
+        path = self.sourceModel().filePath(index)
+
+        contains = dir_contains_pflex_data(path)
+        if contains:
+            return True
+
+        older_prisma = get_year_dirs(path)
+        for elem in older_prisma:
+            # There may be year dirs in the root directory for older machines
+            return True
+
+        return False
+
+    pass

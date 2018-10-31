@@ -3,50 +3,17 @@ import sys
 import tempfile
 from pathlib import Path
 
-from PyQt5 import QtWidgets, QtCore, QtGui, Qt
-from PyQt5.QtCore import QDir, QSortFilterProxyModel, QCoreApplication
-from PyQt5.QtWidgets import QFileSystemModel, QMessageBox, QProgressDialog
-from pfreader.core import get_loxfile_data, dir_contains_pflex_data, get_machines, get_year_dirs
+from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtCore import QDir, QCoreApplication
+from PyQt5.QtWidgets import QFileSystemModel, QProgressDialog, QMessageBox
+from pfreader.core import get_loxfile_data, get_machines, get_year_dirs
 from pfreader.output import get_databook
 
-from pfreader_gui.util import autofit_databook
+from . import excepthook
 from .__version__ import VERSION
 from .exceptions import UnsupportedPlatform
 from .mainwindow_ui import Ui_MainWindow
-
-QFileDialog_platform_kwargs = {}
-if sys.platform == 'darwin':
-    # QFileDialog_platform_kwargs = dict(
-    #     options=QtWidgets.QFileDialog.DontUseNativeDialog)
-    pass
-
-class ExcludeSomeNamesModel(QSortFilterProxyModel):
-    def filterAcceptsRow(self, p_int, idx):
-        index = self.sourceModel().index(p_int, 0, idx)
-        s = self.sourceModel().data(index)
-
-        if sys.platform == 'darwin':
-            if s.startswith("Preboot"):
-                return False
-
-            if s.startswith("Volumes"):
-                return True
-
-        path = self.sourceModel().filePath(index)
-
-        contains = dir_contains_pflex_data(path)
-        if contains:
-            return True
-
-        older_prisma = get_year_dirs(path)
-        for elem in older_prisma:
-            # There may be year dirs in the root directory for older machines
-            return True
-
-        return False
-
-    pass
-
+from .util import autofit_databook, ExcludeSomeNamesModel
 
 _ = QCoreApplication.translate
 
@@ -85,10 +52,6 @@ class PFReaderGUI(Ui_MainWindow):
         for elem in range(1, 4):
             self.treeView.hideColumn(elem)
 
-    def directoryChanged(self, *args, **kw):
-        print("CHANGE " * 50, args)
-        pass
-
     def aboutButtonClicked(self, *args, **kw):
         QMessageBox.about(
             self.window,
@@ -97,7 +60,7 @@ class PFReaderGUI(Ui_MainWindow):
             "(C) 2018 Michał Pasternak <michal.dtz@gmail.com>\r\n\r\n"
             "(C) 2018 IPLweb, http://www.iplweb.pl/\r\n\r\n"
             "Open source software, not affiliated with Baxter® Inc., provided for "
-            "educational purposes. Do not use with any real data. MIT license. "
+            "educational purposes only. Do not use with any real data. MIT license. "
         )
 
     def volumeDoubleClicked(self, idx):
@@ -114,7 +77,13 @@ class PFReaderGUI(Ui_MainWindow):
             return
 
         # "Old" PrismaFlex machines on CF card: year/LOX files
-        for elem in get_year_dirs(fn):
+        yds = list(get_year_dirs(fn))
+        print(yds)
+        if len(yds) == 1:
+            self._openFileDialog(os.path.join(fn, str(yds[0])))
+            return
+
+        elif len(yds) > 1:
             self._openFileDialog(fn)
             return
 
@@ -134,9 +103,8 @@ class PFReaderGUI(Ui_MainWindow):
     def _openFileDialog(self, path):
         fn = QtWidgets.QFileDialog.getOpenFileName(
             self.window, _("Open", "Choose file"), path,
-            _("Open", "LOX files (*.lox)"),
+            _("Open", "LOX files (*.lox)"))
 
-            **QFileDialog_platform_kwargs)
         if fn[0]:
             self.openLOXFile(fn[0])
 
@@ -187,6 +155,8 @@ class PFReaderGUI(Ui_MainWindow):
 
 
 def entry_point():
+    excepthook.install()
+
     app = QtWidgets.QApplication(sys.argv)
 
     qtranslator = QtCore.QTranslator()
@@ -205,7 +175,6 @@ def entry_point():
 
     prog = PFReaderGUI(win)
     win.show()
-
     sys.exit(app.exec_())
 
 
