@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>863</width>
-    <height>476</height>
+    <width>348</width>
+    <height>375</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,39 +17,39 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="aboutButton">
+        <property name="text">
+         <string>&amp;About...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QTreeView" name="treeView"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="openFileButton">
+        <property name="text">
+         <string>&amp;Open file...</string>
+        </property>
+        <property name="icon">
+         <iconset theme="document-open">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>In the list below, you will find USB devices containing PrismaFlex® data, if any. In case you connected new devices, they should show up automatically. You can also open individual LOX files by clicking &quot;Open file&quot; button below. </string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In the list below, you will find USB devices containing PrismaFlex® data, if any. In case you connected new devices, they should show up automatically. If they don't, please close this window and re-start pfreader application. &lt;/p&gt;&lt;p&gt;You can also open individual LOX files by clicking &amp;quot;Open file&amp;quot; button below. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
         </property>
        </widget>
-      </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="openFileButton">
-          <property name="text">
-           <string>&amp;Open file...</string>
-          </property>
-          <property name="icon">
-           <iconset theme="document-open"/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="aboutButton">
-          <property name="text">
-           <string>&amp;About...</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
-       <widget class="QTreeView" name="treeView"/>
       </item>
      </layout>
     </item>
@@ -60,7 +60,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>863</width>
+     <width>348</width>
      <height>22</height>
     </rect>
    </property>
