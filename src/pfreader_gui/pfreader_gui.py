@@ -60,11 +60,11 @@ class PFReaderGUI(Ui_MainWindow):
         QMessageBox.about(
             self.window,
             "pfreader-gui",
-            f"pfreader-gui {VERSION}\r\n\r\n"
-            "(C) 2018 Michał Pasternak <michal.dtz@gmail.com>\r\n\r\n"
-            "(C) 2018 IPLweb, http://www.iplweb.pl/\r\n\r\n"
+            f"<span>pfreader-gui {VERSION}<br/><br/>"
+            "(C) 2018 Michał Pasternak <michal.dtz@gmail.com><br/><br/>"
+            "(C) 2018 IPLweb, <a href=http://iplweb.pl/>http://www.iplweb.pl/</a><br/><br/>"
             "Open source software, not affiliated with Baxter® Inc., provided for "
-            "educational purposes only. Do not use with any real data. MIT license. "
+            "educational purposes only. Do not use with any real data. MIT license.</span>"
         )
 
     def volumeDoubleClicked(self, idx):
@@ -82,7 +82,6 @@ class PFReaderGUI(Ui_MainWindow):
 
         # "Old" PrismaFlex machines on CF card: year/LOX files
         yds = list(get_year_dirs(fn))
-        print(yds)
         if len(yds) == 1:
             self._openFileDialog(os.path.join(fn, str(yds[0])))
             return
@@ -152,7 +151,13 @@ class PFReaderGUI(Ui_MainWindow):
         if sys.platform == "darwin":
             os.system('open "%s"' % fp.name)
         elif sys.platform == 'win32':
-            os.system('start "" "%s"' % fp.name)
+            cmd = 'start "" "%s"' % fp.name
+            import subprocess
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+            subprocess.Popen(cmd, startupinfo=startupinfo, shell=True)
+
         else:
             raise UnsupportedPlatform(sys.platform)
 
