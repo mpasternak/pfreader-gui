@@ -9,6 +9,7 @@ pfreader = "*"
 
 [dev-packages]
 pyqt-distutils = "*"
+bumpversion = "*"
 
 [requires]
 python_version = "3.7"
