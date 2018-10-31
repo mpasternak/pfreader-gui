@@ -1,4 +1,4 @@
-all: win macos
+all: macos win
 
 requirements:
 	pipenv lock -r > requirements.txt
@@ -11,7 +11,7 @@ clean:
 	rm -rf build dist
 
 mac-clean: clean
-	rm pfreader*dmg
+	rm -f pfreader*dmg
 
 mac-app:
 	python setup.py py2app  --packages=PyQt5 --packages=pfreader_gui --packages=pfreader --packages=openpyxl
