@@ -1,8 +1,20 @@
 
-0.0.3
+dev
+---
+
+*
+
+0.0.4-dev
+-------------
 -----
 
-* [bugfix] use pfreader 0.0.3, export pressure information
+* [bugfix] use pfreader dev
+---
+
+*
+
+0.0.4-dev
+-------------, export pressure information
 * [bugfix] [Windows] don't display console window when opening XLS 
 
 0.0.2
